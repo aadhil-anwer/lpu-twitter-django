@@ -9,7 +9,9 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="{{ settings.RECAPTCHA_SITE_KEY }}"></div>
                 <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                
             </div>
         </form>
         <div class="border-top pt-3">

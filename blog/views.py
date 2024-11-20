@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -12,7 +14,7 @@ def home(request):
 def about(request):
     return render(request, 'blog/about.html', {'title':'about'})
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin,ListView):
     model=Post
     template_name='blog/home.html'
     context_object_name='posts'
@@ -57,4 +59,3 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
             return True
         return False
     success_url='/'
-    

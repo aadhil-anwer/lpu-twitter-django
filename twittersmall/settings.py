@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar'
+    'storages',
+    'captcha',
     
 ]
 
@@ -54,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+
 ]
 
 ROOT_URLCONF = 'twittersmall.urls'
@@ -108,6 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+RECAPTCHA_PUBLIC_KEY='6LfLlIQqAAAAAO1pR5Cp5db9utqHTxR-gqCWBraq'
+RECAPTCHA_PRIVATE_KEY='6LfLlIQqAAAAAOXkYkXVA2mILbs0Lyq916ObrSFA'
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -124,8 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = BASE_DIR.joinpath('media')
-MEDIA_URL='/media/'
+# MEDIA_ROOT = BASE_DIR.joinpath('media')
+# MEDIA_URL='/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -134,3 +138,19 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL='blog-home'
 LOGIN_URL='login'
+USE_S3_MEDIA=True
+AWS_ACCESS_KEY_ID='AKIA6ODU4I63A3COZ4FA'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME='twitter-django-project'
+# AWS S3 Settings
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_QUERYSTRING_AUTH = True  # Optional: Set to False to make files public
+
+# Use S3 for default file storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# Static files (optional if you want to serve static files from S3 too)
+# STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
