@@ -110,8 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-RECAPTCHA_PUBLIC_KEY='6LfLlIQqAAAAAO1pR5Cp5db9utqHTxR-gqCWBraq'
-RECAPTCHA_PRIVATE_KEY='6LfLlIQqAAAAAOXkYkXVA2mILbs0Lyq916ObrSFA'
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -139,8 +138,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL='blog-home'
 LOGIN_URL='login'
 USE_S3_MEDIA=True
-AWS_ACCESS_KEY_ID=''
-AWS_SECRET_ACCESS_KEY=''
+
 AWS_STORAGE_BUCKET_NAME='twitter-django-project'
 # AWS S3 Settings
 AWS_S3_REGION_NAME = 'us-east-1'
