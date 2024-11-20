@@ -140,7 +140,7 @@ LOGIN_URL='login'
 USE_S3_MEDIA=True
 
 AWS_STORAGE_BUCKET_NAME='twitter-django-project'
-# AWS S3 Settings
+
 AWS_S3_REGION_NAME = 'us-east-1'
 AWS_QUERYSTRING_AUTH = True  # Optional: Set to False to make files public
 
