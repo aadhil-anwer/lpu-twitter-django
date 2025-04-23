@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/aadhil-anwer/lpu-twitter-django.git'
+                git branch: 'main', url: 'https://github.com/aadhil-anwer/lpu-twitter-django.git'
             }
         }
 
@@ -41,7 +41,3 @@ pipeline {
         }
     }
 }
-// Optional: Clean up old images
-    cleanup {
-        sh "docker rmi ${IMAGE_NAME} || true"
-    }
