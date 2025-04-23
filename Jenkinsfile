@@ -21,8 +21,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    FOR /F %%i IN ('docker ps -q --filter "ancestor=twitter-django"') DO docker stop %%i
-
+                    // bat 'docker stop $(docker ps -q --filter "ancestor=twitter-django") || true'
                     bat 'docker run -d -p 8000:8000 twitter-django'
                 }
             }
