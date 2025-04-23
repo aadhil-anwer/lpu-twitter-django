@@ -8,7 +8,7 @@ from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox) 
+    
 
     class Meta:
         model = User
@@ -17,7 +17,7 @@ class UserRegisterForm(UserCreationForm):
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox) 
+    
 
     class Meta:
         model = User
@@ -25,7 +25,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox) 
+    
 
     class Meta:
         model = Profile
