@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'Silent Stories'
+        
     }
 
     stages {
@@ -15,7 +15,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                script {
-                    sh "docker build -t ${IMAGE_NAME} ."
+                    bat 'docker build -t twitter-django .'
                 }
             }
         }
@@ -23,10 +23,10 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // Stop and remove any running container first
-                    sh "docker rm -f ${IMAGE_NAME} || true"
+                    // // Stop and remove any running container first
+                    // sh "docker rm -f ${IMAGE_NAME} || true"
                     // Run the new container
-                    sh "docker run -d -p 8000:8000 --name ${IMAGE_NAME} ${IMAGE_NAME}"
+                    bat 'docker run -d -p 8000:8000 twitter-django'
                 }
             }
         }
