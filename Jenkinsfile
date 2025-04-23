@@ -21,9 +21,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // // Stop and remove any running container first
-                    // sh "docker rm -f ${IMAGE_NAME} || true"
-                    // Run the new container
+                    bat 'docker stop $(docker ps -q --filter "ancestor=twitter-django") || true'
                     bat 'docker run -d -p 8000:8000 twitter-django'
                 }
             }
