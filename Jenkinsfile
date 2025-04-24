@@ -17,22 +17,23 @@ pipeline {
         }
 
         stage('Run Container') {
-    steps {
-        script {
-            def workspace = env.WORKSPACE.replace('\\', '/')
-            def dbPath = "${workspace}/db.sqlite3"
+            steps {
+                script {
+                    def workspace = env.WORKSPACE.replace('\\', '/')
+                    def dbPath = "${workspace}/db.sqlite3"
 
-            bat """
-                REM Stop containers using port 8000
-                for /f "tokens=*" %%i in ('docker ps -q --filter "publish=8000"') do docker stop %%i
-                for /f "tokens=*" %%i in ('docker ps -aq --filter "publish=8000"') do docker rm %%i
+                    bat """
+                        REM Stop containers using port 8000
+                        for /f "tokens=*" %%i in ('docker ps -q --filter "publish=8000"') do docker stop %%i
+                        for /f "tokens=*" %%i in ('docker ps -aq --filter "publish=8000"') do docker rm %%i
 
-                REM Run the container and mount the SQLite database
-                docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django
-            """
+                        REM Run the container and mount the SQLite database
+                        docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django
+                    """
+                }
+            }
         }
     }
-}
 
     post {
         failure {
