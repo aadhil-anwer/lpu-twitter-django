@@ -23,6 +23,9 @@ pipeline {
                     def dbPath = "${workspace}/db.sqlite3"
 
                     bat """
+                        REM Grant full access to db.sqlite3
+                        icacls "${dbPath}" /grant *S-1-1-0:F
+
                         REM Stop containers using port 8000
                         for /f "tokens=*" %%i in ('docker ps -q --filter "publish=8000"') do docker stop %%i
                         for /f "tokens=*" %%i in ('docker ps -aq --filter "publish=8000"') do docker rm %%i
