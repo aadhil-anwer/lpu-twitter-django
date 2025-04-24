@@ -19,19 +19,16 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    def workspace = env.WORKSPACE.replace('\\', '/')
-                    def dbPath = "${workspace}/db.sqlite3"
-
                     bat """
-                        REM Grant full access to db.sqlite3
-                        icacls "${dbPath}" /grant *S-1-1-0:F
+                        REM Create volume if it doesn't exist
+                        docker volume inspect twitter_db_volume >nul 2>&1 || docker volume create twitter_db_volume
 
-                        REM Stop containers using port 8000
+                        REM Stop and remove containers using port 8000
                         for /f "tokens=*" %%i in ('docker ps -q --filter "publish=8000"') do docker stop %%i
                         for /f "tokens=*" %%i in ('docker ps -aq --filter "publish=8000"') do docker rm %%i
 
-                        REM Run the container and mount the SQLite database
-                        docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django
+                        REM Run the container using the persistent volume
+                        docker run -d -p 8000:8000 -v twitter_db_volume:/app/db.sqlite3 twitter-django
                     """
                 }
             }
