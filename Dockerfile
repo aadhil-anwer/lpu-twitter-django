@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies (no MySQL needed for SQLite)
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     pkg-config \
@@ -19,7 +19,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Copy the entire project
+# Copy the entire project (excluding the DB file, ideally via .dockerignore)
 COPY . .
 
 # Expose port 8000

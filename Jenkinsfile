@@ -1,8 +1,6 @@
 pipeline {
     agent any
 
-   
-
     stages {
         stage('Clone Repo') {
             steps {
@@ -12,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-               script {
+                script {
                     bat 'docker build -t twitter-django .'
                 }
             }
@@ -21,8 +19,11 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // bat 'docker stop $(docker ps -q --filter "ancestor=twitter-django") || true'
-                    bat 'docker run -d -p 8000:8000 twitter-django'
+                    def workspace = env.WORKSPACE.replace('\\', '/')
+                    def dbPath = "${workspace}/db.sqlite3"
+
+                    // Mount the DB into the container
+                    bat "docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django"
                 }
             }
         }
