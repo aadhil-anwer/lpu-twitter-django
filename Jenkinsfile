@@ -16,25 +16,20 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                script {
-                    def workspace = env.WORKSPACE.replace('\\', '/')
-                    def dbPath = "${workspace}/db.sqlite3"
+       stage('Run Container') {
+    steps {
+        script {
+            def workspace = env.WORKSPACE.replace('\\', '/')
+            def dbPath = "${workspace}/db.sqlite3"
 
-                    // Mount the DB into the container
-                    bat "docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django"
-                }
-            }
-        }
-    }
+            bat """
+                REM Stop and remove any running container from the twitter-django image
+                for /f "tokens=*" %%i in ('docker ps -q --filter "ancestor=twitter-django"') do docker stop %%i
+                for /f "tokens=*" %%i in ('docker ps -aq --filter "ancestor=twitter-django"') do docker rm %%i
 
-    post {
-        failure {
-            echo "Build failed, your majesty 😞"
-        }
-        success {
-            echo "Deployed successfully on http://localhost:8000 🎉"
+                REM Run the container and mount the SQLite database
+                docker run -d -p 8000:8000 -v ${dbPath}:/app/db.sqlite3 twitter-django
+            """
         }
     }
 }
