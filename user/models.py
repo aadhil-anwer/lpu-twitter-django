@@ -5,7 +5,7 @@ from storages.backends.s3boto3 import S3Boto3Storage
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics',storage=S3Boto3Storage())
+    image = models.ImageField(default='default.png', upload_to='profile_pics')
 
     def __str__(self):
         return f'{self.user.username} Profile'

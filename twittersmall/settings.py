@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-32wo-v*_l@4^$dl*m0sex%a+y8gbv*a_anfcqz9x6jcxofbw6b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+
 
 
 # Application definition
@@ -45,6 +47,10 @@ INSTALLED_APPS = [
     'storages',
     'captcha',
     
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://8ce6-103-16-147-221.ngrok-free.app',  # your ngrok URL
+    'https://*.ngrok.io',  # You can also add this to trust any ngrok URL
 ]
 
 MIDDLEWARE = [
@@ -137,18 +143,13 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL='blog-home'
 LOGIN_URL='login'
-USE_S3_MEDIA=True
 
-AWS_STORAGE_BUCKET_NAME='twitter-django-project'
 
-AWS_S3_REGION_NAME = 'us-east-1'
-AWS_QUERYSTRING_AUTH = True  # Optional: Set to False to make files public
+
 
 # Use S3 for default file storage
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-# Static files (optional if you want to serve static files from S3 too)
-# STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Local media file settings
+MEDIA_URL = '/media/'  # This is the URL to access media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # This is the local folder where media files will be stored
