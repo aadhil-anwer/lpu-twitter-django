@@ -50,7 +50,8 @@ INSTALLED_APPS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://8ce6-103-16-147-221.ngrok-free.app',  # your ngrok URL
-    'https://*.ngrok.io',  # You can also add this to trust any ngrok URL
+    'https://*.ngrok.io',
+      'https://*.serveo.net/'  # You can also add this to trust any ngrok URL
 ]
 
 MIDDLEWARE = [
